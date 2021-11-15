@@ -92,7 +92,7 @@ export default {
   flex-wrap: wrap;
 }
 .custom-card {
-  width: 20%;
+  width: 18%;
   height: 275px;
 }
 .card-body {
