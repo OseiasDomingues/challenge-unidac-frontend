@@ -6,12 +6,14 @@
             </ol>
         </nav>
     <div class="custom-container container">
-      <div class="card custom-card me-3 mb-3">
+      <div v-for="colaborador of colaboradores" :key=colaborador.id class="card custom-card me-3 mb-3">
         <div class="card-body">
-          <h5 class="card-title">Carlos</h5>
-          <small>100.100.100-10</small>
+        <div>
+          <h5 class="card-title">{{colaborador.name}}</h5>
+          <small>{{colaborador.cpf}}</small>
           <br />
-          <span>Pão</span>
+          <span v-for="food of colaborador.foods" :key=food.id>{{food.name}}<br /></span>
+          </div>
           <form class="form-custom">
             <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#updateModal">
               Editar
@@ -55,9 +57,26 @@
   </section>
 </template>
 
+
+
 <script>
+
+import api from '../services/api'
+
 export default {
   name: "collaboradores",
+
+  data(){
+      return{
+      colaboradores: []
+      }
+  },
+  mounted(){
+      api.findAllCollaborator().then(response => {
+          console.log(response.data)
+          this.colaboradores = (response.data)
+          })
+  }
 }
 
 </script>
@@ -76,7 +95,9 @@ export default {
   width: 20%;
   height: 275px;
 }
-.form-custom {
-  padding-top: 100px;
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

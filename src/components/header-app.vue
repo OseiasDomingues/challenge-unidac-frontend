@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand">Desafio Unidac - Grupo WL</a>
+        <a href="/" class="navbar-brand">Desafio Unidac - Grupo WL</a>
         <a href="/form" class="btn btn-light">Cadastrar</a>
       </div>
     </nav>
