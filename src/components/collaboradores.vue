@@ -33,7 +33,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-        <form @submit.prevent="updateBreakfast"> 
+        <form @submit.prevent="updateBreakfast" action="/"> 
           <div class="modal-body">          
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="cpf" class="form-label">CPF</label>                    
-                    <input type="tel" v-mask="'###.###.###-##'" class="form-control" id="cpf" name="name" placeholder="Digite seu cpf" required v-model="oneColaborador.cpf">
+                    <input type="text"  pattern=".{14}" v-mask="'###.###.###-##'" minlength="14" class="form-control" id="cpf" name="name" placeholder="Digite seu cpf" required v-model="oneColaborador.cpf">
                 </div>
                 <p>O que você vai trazer?</p>
                 <div v-for="food of oneColaborador.foods" :key=food.id>         
@@ -50,7 +50,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Salvar Mudanças</button>
+            <button type="submit" class="btn btn-primary" >Salvar Mudanças</button>
             {{error}}           
           </div>
 
@@ -106,7 +106,11 @@ export default {
     api.updateBreakfast(this.oneColaborador)
     .catch(e =>{
             this.error = e.response.data.message;
-        })
+        }).then(error =>{if(error.data == ''){
+          window.location.href = "/"
+        }})
+        
+    
   },
   deleteBreakfast(collaborador){
     if(confirm("Deseja deletar?")){

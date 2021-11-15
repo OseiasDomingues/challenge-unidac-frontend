@@ -14,7 +14,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="cpf" class="form-label">CPF</label>                    
-                    <input type="tel" v-mask="'###.###.###-##'" class="form-control" id="cpf" name="name" placeholder="Digite seu cpf" required v-model="collaboradores.cpf">
+                    <input type="tel" pattern=".{14}" v-mask="'###.###.###-##'" class="form-control" id="cpf" name="name" placeholder="Digite seu cpf" required v-model="collaboradores.cpf">
                 </div>
                 <p>O que você vai trazer?</p>
                 <div v-for="food of collaboradores.foods" :key=food.id>         
@@ -58,7 +58,9 @@ export default {
         api.insertBreakfast(this.collaboradores)
         .catch(e =>{
             this.error = e.response.data.message;
-        })
+        }).then(error =>{if(error.data == ''){
+          window.location.href = "/"
+        }})
       }
   }
   
