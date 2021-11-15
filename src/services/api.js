@@ -7,5 +7,11 @@ export default {
     },
     insertBreakfast: (breakfast) => {
         return http.post('collaborators', breakfast)
+    },
+    updateBreakfast: (breakfast) => {
+        return http.put('collaborators', breakfast)
+    },
+    deleteBreakfast: (breakfast) => {
+        return http.delete('collaborators', { data: breakfast })
     }
 }

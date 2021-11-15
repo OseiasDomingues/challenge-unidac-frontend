@@ -6,7 +6,7 @@
             </ol>
         </nav>
     <div class="custom-container container">
-      <div v-for="colaborador of colaboradores" :key=colaborador.id class="card custom-card me-3 mb-3">
+      <div v-for="colaborador of listColaboradores" :key=colaborador.id class="card custom-card me-3 mb-3">
         <div class="card-body">
         <div>
           <h5 class="card-title">{{colaborador.name}}</h5>
@@ -14,11 +14,11 @@
           <br />
           <span v-for="food of colaborador.foods" :key=food.id>{{food.name}}<br /></span>
           </div>
-          <form class="form-custom">
-            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#updateModal">
+          <form class="form-custom">    
+            <button @click="searchBreakfast(colaborador)" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#updateModal">
               Editar
             </button>
-            <button class="btn btn-danger">Delete</button>
+            <button @click="deleteBreakfast(colaborador)" class="btn btn-danger">Delete</button>
           </form>
         </div>
       </div>
@@ -33,21 +33,25 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-        <form>
-          <div class="modal-body">            
+        <form @submit.prevent="updateBreakfast"> 
+          <div class="modal-body">          
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome" required v-model="oneColaborador.name">
                 </div>
-                <p>Items a serem atualizados</p>                
-                <input type="text" class="form-control mb-2" placeholder="Item 01" name="food" aria-label="First name">
-                <input type="text" class="form-control mb-2" placeholder="Item 02" name="food" aria-label="First name">
-                <input type="text" class="form-control" placeholder="Item 03" name="food" aria-label="First name">              
+                <div class="mb-3">
+                    <label for="cpf" class="form-label">CPF</label>                    
+                    <input type="tel" v-mask="'###.###.###-##'" class="form-control" id="cpf" name="name" placeholder="Digite seu cpf" required v-model="oneColaborador.cpf">
+                </div>
+                <p>O que você vai trazer?</p>
+                <div v-for="food of oneColaborador.foods" :key=food.id>         
+                    <input type="text" class="form-control mb-2" placeholder="Item" name="name"  v-model="food.name" >
+                </div>         
           </div>
-          
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Salvar Mudanças</button>            
+            <button type="submit" class="btn btn-primary">Salvar Mudanças</button>
+            {{error}}           
           </div>
 
         </form>
@@ -68,16 +72,52 @@ export default {
 
   data(){
       return{
-      colaboradores: []
-      }
+      listColaboradores: [],   
+      oneColaborador:{
+        id: '',
+        name: '',
+        cpf: '',
+        foods: [
+          {
+          name: ''
+         },
+         {
+          name: ''
+         },{
+          name: ''
+         }
+         ]                  
+      },
+      error: ''
+    }
   },
   mounted(){
       api.findAllCollaborator().then(response => {
           console.log(response.data)
-          this.colaboradores = (response.data)
+          this.listColaboradores = (response.data)
           })
+      
+  },
+  methods:{
+    searchBreakfast(collaborador){
+      this.oneColaborador = collaborador
+  },
+  updateBreakfast(){
+    api.updateBreakfast(this.oneColaborador)
+    .catch(e =>{
+            this.error = e.response.data.message;
+        })
+  },
+  deleteBreakfast(collaborador){
+    if(confirm("Deseja deletar?")){
+      api.deleteBreakfast(collaborador)
+      .catch(e =>{
+              this.error = e.response.data.message;
+          })}
   }
-}
+}}
+
+
 
 </script>
 
