@@ -148,4 +148,14 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 }
+@media (max-width: 800px){
+  .custom-container{
+  flex-direction: column;
+  }
+  .custom-card {
+  background: rgba(241, 248, 181, 0.397);
+  width: 100%;
+  height: 275px;
+}
+}
 </style>
