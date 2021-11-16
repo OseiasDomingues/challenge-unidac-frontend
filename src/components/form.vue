@@ -21,7 +21,7 @@
                     <input type="text" class="form-control mb-2" placeholder="Item" name="name"  v-model="food.name" >
                 </div>          
                 <button type="submit" class="btn btn-primary">Salvar</button>   
-                {{error}}      
+                <small class="ms-3 text-danger">{{error}}</small>
             </form>
         </div>
     </section>

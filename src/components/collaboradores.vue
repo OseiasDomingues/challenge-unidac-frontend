@@ -49,11 +49,13 @@
                 </div>         
           </div>
           <div class="modal-footer">
+             
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary" >Salvar Mudanças</button>
-            {{error}}           
+            <button type="submit" class="btn btn-primary" >Salvar Mudanças</button>  
+            <br/>
+            <small class="ms-3 text-danger">{{error}}</small>              
           </div>
-
+              
         </form>
         </div>
         </div>
@@ -134,8 +136,10 @@ export default {
 .custom-container {
   display: flex;
   flex-wrap: wrap;
+  
 }
 .custom-card {
+  background: rgba(241, 248, 181, 0.397);
   width: 18%;
   height: 275px;
 }
